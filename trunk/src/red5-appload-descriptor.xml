@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<applications>
+	<application>
+		<title>Red5 0.7 Basic</title>
+		<description><![CDATA[Basic Red5 0.7 compatible application for streaming,live broadcasting,recording with custom path configuration]]></description>
+		<path>applications/Customstreamer_deployable_0.7.zip</path>
+	</application>
+	<application>
+		<title>Red5 0.8 Basic</title>
+		<description><![CDATA[Basic Red5 0.8 compatible application for streaming,live broadcasting,recording with custom path configuration]]></description>
+		<path>applications/Customstreamer_deployable_0.8.zip</path>
+	</application>
+	<application>
+		<title>Red5 0.9 Basic</title>
+		<description><![CDATA[Basic Red5 0.9.x compatible application for streaming,live broadcasting,recording with custom path configuration]]></description>
+		<path>applications/Customstreamer_deployable_0.9.zip</path>
+	</application>
+</applications>

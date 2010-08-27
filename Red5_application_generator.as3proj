@@ -46,8 +46,8 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\fzip.swc" />
     <element path="lib\PureMVC_AS3_2_0_4.swc" />
+    <element path="lib\fzip.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

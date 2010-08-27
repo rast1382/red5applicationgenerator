@@ -14,6 +14,7 @@
 		public static const STARTUP:String  = "onStartUp";
 		public static const REQUEST_APPLICATIONS:String  = "onApplicationListRequest";
 		public static const LOAD_APPLICATION:String  = "onLoadApplicationArchive";
+		public static const LOAD_APPLICATION_START:String  = "onApplicationArchiveLoadStart";
 		public static const LOAD_FAILED:String  = "onApplicationLoadFailed";
 		public static const LOAD_SUCCESS:String  = "onApplicationLoaded";
 		public static const GENERATE_NEW:String  = "onApplicationArchiveCreate";

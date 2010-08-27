@@ -8,6 +8,9 @@
 	import com.flashvisions.red5appgenerator.vo.IOParams;
 	import deng.fzip.FZip;
 	import deng.fzip.FZipEvent;
+	import fl.controls.ProgressBar;
+	import fl.controls.ProgressBarMode;
+	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -28,6 +31,8 @@
 		private var listLoader:URLLoader;
 		private var archiveLoader:FZip;
 		public static const NAME:String = 'IOProxy';
+		private var preloader:ProgressBar;
+		private var curtain:Sprite;
 		
 		public function IOProxy(proxyName:String = null, data:Object = null) 
 		{
@@ -45,6 +50,7 @@
 			if (!listLoader.hasEventListener(IOErrorEvent.IO_ERROR)) listLoader.addEventListener(IOErrorEvent.IO_ERROR, onListError);
 			if (!listLoader.hasEventListener(Event.OPEN)) listLoader.addEventListener(Event.OPEN, onListLoadStart);
 			
+		
 			try{
 			listLoader.load(new URLRequest(ioParams.applicationPath));
 			}catch (e:Error) {
@@ -65,6 +71,7 @@
 			if (!archiveData.archive.hasEventListener(IOErrorEvent.IO_ERROR)) archiveData.archive.addEventListener(IOErrorEvent.IO_ERROR, onArchiveLoadError);
 			
 			archiveData.archive.load(new URLRequest(archiveURL));
+			sendNotification(ApplicationFacade.LOAD_APPLICATION_START);
 		}
 		
 		public function downloadArchive():void 
@@ -85,6 +92,9 @@
 			
 			fref.save(ba,contextName+".zip");
 		}
+		
+		
+		
 		
 		/* Event Handlers */
 		

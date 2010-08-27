@@ -8,11 +8,14 @@ package com.flashvisions.red5appgenerator.view
 	import com.flashvisions.red5appgenerator.vo.ArchiveData;
 	import com.flashvisions.red5appgenerator.vo.IOParams;
 	import fl.controls.Button;
+	import fl.controls.ProgressBar;
+	import fl.controls.ProgressBarMode;
 	import fl.controls.RadioButton;
 	import fl.controls.RadioButtonGroup;
 	import fl.data.DataProvider;
 	import flash.display.DisplayObject;
 	import flash.display.SimpleButton;
+	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -37,6 +40,8 @@ package com.flashvisions.red5appgenerator.view
 		public var btnDownloader:Button;
 		public var txtStreamDirectory:TextInput;
 		public var txtRecordDirectory:TextInput;
+		public var progressMonitor:ProgressBar;
+		public var curtain:Sprite;
 		 
 		public function StageMediator(mediatorName:String = null, viewComponent:Object = null) 
 		{
@@ -47,13 +52,42 @@ package com.flashvisions.red5appgenerator.view
 		private function init():void
 		{
 			application = (this.viewComponent as Stage).getChildAt(0) as Main;
+			curtain = new Sprite();
+			viewComponent.addChild(curtain);
+			progressMonitor = new ProgressBar();
+			progressMonitor.indeterminate = true;
+			viewComponent.addChild(progressMonitor);
+			
+			hideProgress();
+		}
+		
+		private function showProgress():void
+		{
+			curtain.graphics.lineStyle(0, 0x000000, 1);
+			curtain.graphics.beginFill(0x000000, .8);
+			curtain.graphics.drawRect(0, 0, Stage(viewComponent).stageWidth, Stage(viewComponent).stageHeight);
+			curtain.graphics.endFill();
+			curtain.mouseChildren = false;
+			
+			progressMonitor.x = Stage(viewComponent).stageWidth / 2 - progressMonitor.width / 2;
+			progressMonitor.y = Stage(viewComponent).stageHeight / 2 - progressMonitor.height / 2;
+			
+			progressMonitor.visible = true;
+		}
+		
+		private function hideProgress():void
+		{
+			curtain.mouseChildren = true;
+			curtain.graphics.clear();
+			
+			progressMonitor.visible = false;
 		}
 		
 		/* INTERFACE org.puremvc.as3.interfaces.IMediator */
 		
 		override public function listNotificationInterests():Array
 		{
-			return [ApplicationFacade.LOCK,ApplicationFacade.UNLOCK,ApplicationFacade.READY,ApplicationFacade.ENABLEDOWLOAD,ApplicationFacade.DISABLEDOWLOAD];
+			return [ApplicationFacade.LOCK,ApplicationFacade.UNLOCK,ApplicationFacade.READY,ApplicationFacade.ENABLEDOWLOAD,ApplicationFacade.DISABLEDOWLOAD,ApplicationFacade.LOAD_APPLICATION_START,ApplicationFacade.LOAD_SUCCESS,ApplicationFacade.LOAD_FAILED];
 		}
 		
 		override public function onRegister():void
@@ -112,6 +146,18 @@ package com.flashvisions.red5appgenerator.view
 				
 				case ApplicationFacade.DISABLEDOWLOAD:
 				btnDownloader.enabled  = false;
+				break;
+				
+				case ApplicationFacade.LOAD_APPLICATION_START:
+				showProgress();
+				break;
+				
+				case ApplicationFacade.LOAD_SUCCESS:
+				hideProgress();
+				break;
+				
+				case ApplicationFacade.LOAD_FAILED:
+				hideProgress();
 				break;
 			}
 		}
